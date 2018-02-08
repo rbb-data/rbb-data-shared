@@ -22,7 +22,7 @@ An exeption to this rule is are components that rely on the [context provided by
 
 #### index.jsx
 
-Every subfolder in `/components` must have an `index.jsx` that contains an [preact.js](https://preactjs.com/)
+Every subfolder in `/components` must have an `index.js` that contains an [preact.js](https://preactjs.com/)
 component.  
 The component should be the default export in the file so it can be imported like this:
 
