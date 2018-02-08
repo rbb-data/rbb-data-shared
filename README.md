@@ -8,7 +8,7 @@ You can add it as git submodule:
 git submodule add https://[username]@docs.rbb-online.de/bitbucket/scm/rd/rbb-data-shared.git src/rbb-data-shared
 ```
 
-Or just cope the code in your repository and change it to your needs.
+Or just copy the code in your repository and change it to your needs.
 
 ## Component Conventions
 
