@@ -16,9 +16,10 @@ This means this component needs to be a child or some grandchild of [`<Map>`](ht
 
 ## Parameters
 
-| Param | Type | Description |
+| Param | Type | Description | Default |
 | --- | --- | --- |
-| locationUpdate | `Object` | Containing a `loacation` and a `timestamp`.<br/ > `timestamp` is needed so the map will only be moved when a new location is set. |
+| locationUpdate | `Object` | Containing a `loacation` and a `timestamp`. `timestamp` is needed so the map will only be moved when a new location is set. | undefined |
+| pane | `String` | The name of the pane the marker should be rendered on. | 'markerPane' |
 
 ## Example
 

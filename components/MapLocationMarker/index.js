@@ -4,6 +4,10 @@ import DivIcon from 'react-leaflet-div-icon'
 import colors from '../../styles/colors.sass'
 
 export default class MapLocationMarker extends Component {
+  static defaultProps = {
+    pane: 'markerPane'
+  }
+
   componentDidUpdate (oldProps) {
     const { locationUpdate } = this.props
     const oldTimestamp = oldProps.locationUpdate && oldProps.locationUpdate.timetamp
@@ -17,7 +21,7 @@ export default class MapLocationMarker extends Component {
     this.context.map.setView(latLng, zoom)
   }
 
-  render ({ locationUpdate }) {
+  render ({ locationUpdate, pane }) {
     const location = locationUpdate && locationUpdate.location
     if (!location) return null
 
@@ -25,6 +29,7 @@ export default class MapLocationMarker extends Component {
       position: [location.lat, location.lng],
       iconSize: [26, 34],
       iconAnchor: [13, 34],
+      pane: pane,
       className: false,
       interactive: false
     }
