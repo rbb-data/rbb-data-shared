@@ -34,7 +34,7 @@ import ComponentName from 'rbb-data-shared/components/ComponentName'
 
 Every subfolder in `/components` must have an `README.md` that provides a description of the component and documentation on how to use the component.
 
-#### styles.sass
+#### styles.sass (optional)
 
 The styles for the component.
 
