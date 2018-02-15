@@ -8,21 +8,7 @@ export default class MapLocationMarker extends Component {
     pane: 'markerPane'
   }
 
-  componentDidUpdate (oldProps) {
-    const { locationUpdate } = this.props
-    const oldTimestamp = oldProps.locationUpdate && oldProps.locationUpdate.timetamp
-
-    if (locationUpdate === null || locationUpdate === undefined) return
-    if (oldTimestamp === locationUpdate.timetamp) return
-
-    // search result was added in this update
-    const latLng = [locationUpdate.location.lat, locationUpdate.location.lng]
-    const zoom = 14
-    this.context.map.setView(latLng, zoom)
-  }
-
-  render ({ locationUpdate, pane }) {
-    const location = locationUpdate && locationUpdate.location
+  render ({ location, pane }) {
     if (!location) return null
 
     const markerProps = {

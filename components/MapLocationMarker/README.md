@@ -1,6 +1,6 @@
 # MapLocationMarker
 
-Renders a marker at a given location on a map and moves the map so the marker is at its center.
+Renders a marker at a given location.
 ## Dependencies
 
 ### npm
@@ -11,14 +11,13 @@ npm i react-leaflet-div-icon
 
 ### context
 
-`context.map` see: https://react-leaflet.js.org/docs/en/intro.html#component-context  
-This means this component needs to be a child or some grandchild of [`<Map>`](https://react-leaflet.js.org/docs/en/components.html#map)
+This component needs to be a child or some grandchild of [`<Map>`](https://react-leaflet.js.org/docs/en/components.html#map)
 
 ## Parameters
 
 | Param | Type | Description | Default |
 | --- | --- | --- |
-| locationUpdate | `Object` | Containing a `loacation` and a `timestamp`. `timestamp` is needed so the map will only be moved when a new location is set. | undefined |
+| location | `Object` | with `lat` `lng` - the location of the marker on the map | undefined |
 | pane | `String` | The name of the pane the marker should be rendered on. | 'markerPane' |
 
 ## Example
