@@ -105,27 +105,27 @@ import _ from './styles.sass'
 
 ``` js
 {
-  heading: 'ComponentName__heading__dj389',
-  text: 'ComponentName__text__8zas8',
-  colored: 'ComponentName__colored__da7e8',
+  heading: 'path-to-component-ComponentName--heading',
+  text: 'path-to-component-ComponentName--text',
+  colored: 'path-to-component-ComponentName--colored',
 }
 ```
 
 And the generated css like this:
 
 ``` css
-.ComponentName__heading__dj389 {
+.path-to-component-ComponentName__heading {
   font-weight: bold; }
 
-  .ComponentName__heading__dj389 .ComponentName__colored__da7e8 {
+  .path-to-component-ComponentName--heading .path-to-component-ComponentName--colored {
     color: blue; }
 
-.ComponentName__text__8zas8 {
+.path-to-component-ComponentName--text {
   font-size: 14px; }
 
-  .ComponentName__text__8zas8 strong {
+  .path-to-component-ComponentName--text strong {
     font-weight: bold; }
 
-  .ComponentName__text__8zas8 .ComponentName__colored__da7e8 {
+  .path-to-component-ComponentName--text .path-to-component-ComponentName--colored {
     color: red; }
 ```
