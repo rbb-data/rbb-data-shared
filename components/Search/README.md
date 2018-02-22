@@ -35,8 +35,11 @@ const handleSearch = result => {
 }
 
 const customSearchFunction = value =>
-  myGeoJson.features.filter(feature =>
-    feature.properties.name.toLowerCase().search(value.toLowerCase()) !== -1))
+  visibleMarkers.filter(marker => {
+    const markerName = marker.properties.name.toLowerCase()
+    const markerNameMatchesValue = markerName.search(value.toLowerCase()) !== -1
+    return markerNameMatchesValue
+  })
 
 const searchProps = {
   class: 'search-input'
