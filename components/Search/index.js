@@ -3,7 +3,7 @@ import style from './styles.sass'
 
 import { h, Component } from 'preact'
 import { PropTypes } from 'preact-compat'
-import { autocomplete } from '@shared/lib/opencage.js'
+import { autocomplete } from '../../lib/opencage.js'
 import searchIcon from './img/searchIcon.svg'
 import closeIcon from './img/closeIcon.svg'
 
