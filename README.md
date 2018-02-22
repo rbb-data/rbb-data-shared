@@ -18,9 +18,9 @@ Dependencies should be provided as `props` or be contained in the components fol
 [npm](https://www.npmjs.com/) dependencies should be listed in the `README.md`
 
 *Components should not depend on any global variables such as `context` or stores.*  
-An exeption to this rule is are components that rely on the [context provided by the react-leaflet Map component](https://react-leaflet.js.org/docs/en/intro.html#component-context). Those Components names should be prepended with Map (e.g. MapSearchResultMarker) and state this dependency in the `README.md`
+An exeption to this rule are components that rely on the [context provided by the react-leaflet Map component](https://react-leaflet.js.org/docs/en/intro.html#component-context). Those Components names should be prepended with Map (e.g. MapSearchResultMarker) and state this dependency in the `README.md`
 
-#### index.jsx
+#### index.js
 
 Every subfolder in `/components` must have an `index.js` that contains an [preact.js](https://preactjs.com/)
 component.  
