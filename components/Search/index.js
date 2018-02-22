@@ -15,8 +15,8 @@ export default class Search extends Component {
   static defaultProps = {
     isOnSmallScreen: false,
     placeholder: 'Bitte Adresse eingeben',
-    onSelect () => {}
-    geojsonSearch () => []
+    onSelect: () => {},
+    geojsonSearch: () => []
   }
 
   propTypes = {
@@ -117,13 +117,12 @@ export default class Search extends Component {
               lng: feature.geometry.coordinates[0]
             }
           }))
-        })
 
         Promise
           .all([providerRequest, geojsonRequest])
           .then(([providerResult, geojsonResult]) => {
-            this.handleAutoCompleteResponse(providerResult, geojsonResult))
-          }
+            this.handleAutoCompleteResponse(providerResult, geojsonResult)
+          })
       }
 
       // wait a delay before actual request to limit traffic
