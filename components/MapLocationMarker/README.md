@@ -26,7 +26,6 @@ This component needs to be a child or some grandchild of [`<Map>`](https://react
 
 ```jsx
 const locationUpdate = {
-  timestamp: 1518101074583,
   location: {
     lat: 52.69,
     lng: 13.06
