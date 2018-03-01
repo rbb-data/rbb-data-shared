@@ -1,19 +1,25 @@
 import { h, Component } from 'preact'
+import Chroma from 'chroma-js'
 import rbbColors from '@shared/styles/colors.sass'
 import _ from './ValueOnGradientBar.sass'
 
 export default class ValueOnGradientBar extends Component {
   static defaultProps = {
     minValue: 0,
+    maxValue: 100,
+    unit: '',
     canvasHeight: 15,
-    barHeight: 12
+    barHeight: 12,
+    colorScale: Chroma.scale(['white', 'black']),
+    greyOutBelowThreshold: false,
+    threshold: 50
   }
 
   drawGradientBar = () => {
     const highlightedValue = this.props.highlightedValue
     const threshold = this.props.threshold
     const colorScale = this.props.colorScale
-    const thresholdFilterIsActive = this.props.thresholdFilterIsActive
+    const greyOutBelowThreshold = this.props.greyOutAfterThreshold
     const maxValue = this.props.maxValue
     const canvasHeight = this.props.canvasHeight * 2
     const barHeight = this.props.barHeight * 2
@@ -33,7 +39,7 @@ export default class ValueOnGradientBar extends Component {
     // draw gradient bar
     colorScale.colors(width).forEach((color, i) => {
       const isAboveThreshold = i >= parseInt(normalizedThreshold)
-      const isColored = !thresholdFilterIsActive || isAboveThreshold
+      const isColored = !greyOutBelowThreshold || isAboveThreshold
 
       ctx.fillStyle = isColored ? color : rbbColors.lightGrey
       ctx.fillRect(i, barTopOffset, 1, barHeight) // (x, y, width, height)
@@ -70,7 +76,7 @@ export default class ValueOnGradientBar extends Component {
     return <div class={`${_.gradientBar} ${props.class}`}>
       { highlightedValue &&
         <output class={_.highlightedValue} style={{ left: `${valuePosition}%` }}>
-          {highlightedValue} μg/m³
+          {highlightedValue} {this.props.unit}
         </output>
       }
 
