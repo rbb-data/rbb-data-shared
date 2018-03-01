@@ -111,7 +111,7 @@ export default class Search extends Component {
           .map(feature => ({
             ...feature,
             type: 'feature',
-            formatted: feature.properties.name,
+            formatted: feature.properties.formatted,
             location: {
               lat: feature.geometry.coordinates[1],
               lng: feature.geometry.coordinates[0]
