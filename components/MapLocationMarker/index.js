@@ -20,6 +20,8 @@ export default class MapLocationMarker extends Component {
       interactive: false
     }
 
+    // wrapping this inside a div and giving it a ref fixes a bug in IE11 that this
+    // marker would never be removed from the map once rendered ¯\_(ツ)_/¯
     return <div><DivIcon {...markerProps} ref={ref => { this.markerRef = ref }}>
       <svg viewBox='0 0 13 17' version='1.1' xmlns='http://www.w3.org/2000/svg'>
         <g id='Artboard-Copy' transform='translate(-599.000000, -303.000000)' stroke={colors.red} stroke-width='2'>
