@@ -159,14 +159,15 @@ export default class Search extends Component {
     // if we don't have any suggestions we don't need to change behavior
     if (suggestions === undefined) return
 
-    // only continue when this is in response to
     // ArrowUP / ArrowDown key pressed (UP / Down in IE)
-    if (e.key !== 'ArrowDown' && e.key !== 'Down' &&
-        e.key !== 'ArrowUp' && e.key !== 'Up') return
+    const keyIsArrowUp = e.key === 'ArrowUp' || e.key === 'Up'
+    const keyIsArrowDown = e.key === 'ArrowDown' || e.key === 'Down'
+
+    if (!keyIsArrowUp && !keyIsArrowDown) return
 
     // move highlighted suggestion one down and stay at bottom or move
     // highlighted suggestion one up and stay at top
-    const newHighlight = e.key === 'ArrowDown'
+    const newHighlight = keyIsArrowDown
       ? highlightedSuggestion + 1
       : highlightedSuggestion - 1
 
