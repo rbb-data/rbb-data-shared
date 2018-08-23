@@ -52,11 +52,11 @@ export default class Slider extends Component {
     const isForwardNavigation = diff > 0
     const offset = isForwardNavigation ? width * -1 : width
 
-    if (Math.abs(diff) < 100) return this.resetTransition()
+    if (Math.abs(diff) < 100) return this.resetTransition({ animated: true })
 
     // cancel transition when there is no slide to go to
-    if (!previousSlide && !isForwardNavigation) return this.resetTransition()
-    if (!nextSlide && isForwardNavigation) return this.resetTransition()
+    if (!previousSlide && !isForwardNavigation) return this.resetTransition({ animated: true })
+    if (!nextSlide && isForwardNavigation) return this.resetTransition({ animated: true })
 
     this.contentRef.style.transition = 'transform 0.5s'
     this.contentRef.style.transform = `translateX(${offset}px)`
@@ -66,9 +66,18 @@ export default class Slider extends Component {
     }, 500)
   }
 
-  resetTransition = () => {
-    this.contentRef.style.transition = ''
-    this.contentRef.style.transform = ''
+  resetTransition = ({ animated = false } = {}) => {
+    if (!animated) {
+      this.contentRef.style.transition = ''
+      this.contentRef.style.transform = ''
+    } else {
+      this.contentRef.style.transition = 'transform 0.5s'
+      this.contentRef.style.transform = `translateX(0px)`
+      setTimeout(() => {
+        this.contentRef.style.transition = ''
+        this.contentRef.style.transform = ''
+      }, 500)
+    }
   }
 
   // When a user selects something on the map or in the search the content
