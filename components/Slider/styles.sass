@@ -1,0 +1,33 @@
+@import "~@shared/styles/colors.sass"
+@import "~@shared/styles/breakpoints.sass"
+
+.slider
+  position: relative
+  padding: 0 40px
+
+  @include breakpoint(small)
+    padding: 0 30px
+
+.prevNextButton
+  position: absolute
+  top: 50%
+  margin-top: -28px
+  cursor: pointer
+  padding: 15px
+  background: transparent
+  border: 0
+  box-shadow: none
+  z-index: 100
+
+  @include breakpoint(small)
+    padding-right: 8px
+
+  img
+    width: 12px
+
+.next
+  right: 0
+
+.prev
+  left: 0
+  transform: rotate(180deg)
