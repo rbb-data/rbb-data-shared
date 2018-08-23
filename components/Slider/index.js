@@ -24,17 +24,67 @@ export default class Slider extends Component {
     if (!!previousSlide && keyIsArrowLeft) navigateBack()
   }
 
+  handleTouchStart = (e) => {
+    this.contentRef.style.transition = ''
+    this.touchStartPosition = e.changedTouches[0].clientX
+  }
+
+  handleTouchMove = (e) => {
+    if (!this.touchStartPosition || !this.contentRef) return
+    e.preventDefault()
+
+    const diff = (this.touchStartPosition - e.changedTouches[0].clientX) * -1
+    this.contentRef.style.transform = `translateX(${diff}px)`
+  }
+
+  handleTouchEnd = (e) => {
+    if (!this.touchStartPosition || !this.contentRef) return
+
+    const {
+      previousSlide,
+      nextSlide,
+      onBackwardNavigation: navigateBack,
+      onForwardNavigation: navigateForward
+    } = this.props
+
+    const { width } = this.contentRef.getBoundingClientRect()
+    const diff = (this.touchStartPosition - e.changedTouches[0].clientX)
+    const isForwardNavigation = diff > 0
+    const offset = isForwardNavigation ? width * -1 : width
+
+    if (Math.abs(diff) < 100) return this.resetTransition()
+
+    // cancel transition when there is no slide to go to
+    if (!previousSlide && !isForwardNavigation) return this.resetTransition()
+    if (!nextSlide && isForwardNavigation) return this.resetTransition()
+
+    this.contentRef.style.transition = 'transform 0.5s'
+    this.contentRef.style.transform = `translateX(${offset}px)`
+
+    setTimeout(() => {
+      isForwardNavigation ? navigateForward() : navigateBack()
+    }, 500)
+  }
+
+  resetTransition = () => {
+    this.contentRef.style.transition = ''
+    this.contentRef.style.transform = ''
+  }
+
   // When a user selects something on the map or in the search the content
   // of the slider will change and componentDidUpdate will be called
   // so now we set the focus here so we can use keyboard navigation
-
-  // Still not shure if it is to agrresive to this on componentDidUpdate…
-  componentDidUpdate () {
+  focusSlider = () => {
     this.ref.focus()
   }
 
+  componentDidUpdate () {
+    this.focusSlider()
+    this.resetTransition()
+  }
+
   componentDidMount () {
-    this.ref.focus()
+    this.focusSlider()
   }
 
   render (props) {
@@ -52,11 +102,20 @@ export default class Slider extends Component {
       class: `${_.slider} ${className}`,
       ref: ref => { this.ref = ref },
       tabIndex: canHaveFocus ? 0 : null,
-      onKeyDown: this.handleKeyDown
+      onKeyDown: this.handleKeyDown,
+      onTouchStart: this.handleTouchStart,
+      onTouchMove: this.handleTouchMove,
+      onTouchEnd: this.handleTouchEnd,
+      onTouchCancel: this.resetTransition
     }
 
     return <div {...wrapperProps}>
-      {currentSlide}
+      <div class={_.content} ref={ref => { this.contentRef = ref }}>
+        <div class={_.previousSlideWrapper}>{previousSlide}</div>
+        {currentSlide}
+        <div class={_.nextSlideWrapper}>{nextSlide}</div>
+      </div>
+
       { !!previousSlide &&
         <button class={`${_.prevNextButton} ${_.prev}`} onClick={navigateBack}>
           <img src={nextIcon} />
