@@ -86,15 +86,14 @@ export default class Slider extends Component {
   // focusSlider = () => {
   //   this.ref.focus()
   // }
-
-  // componentDidUpdate () {
-  //   this.focusSlider()
-  //   this.resetTransition()
-  // }
-  //
   // componentDidMount () {
   //   this.focusSlider()
   // }
+
+  componentDidUpdate () {
+    // this.focusSlider()
+    this.resetTransition()
+  }
 
   render (props) {
     const {
