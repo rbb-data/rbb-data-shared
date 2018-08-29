@@ -31,7 +31,6 @@ export default class Slider extends Component {
 
   handleTouchMove = (e) => {
     if (!this.touchStartPosition || !this.contentRef) return
-    e.preventDefault()
 
     const diff = (this.touchStartPosition - e.changedTouches[0].clientX) * -1
     this.contentRef.style.transform = `translateX(${diff}px)`
