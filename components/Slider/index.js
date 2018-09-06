@@ -83,17 +83,16 @@ export default class Slider extends Component {
   // When a user selects something on the map or in the search the content
   // of the slider will change and componentDidUpdate will be called
   // so now we set the focus here so we can use keyboard navigation
-  focusSlider = () => {
-    this.ref.focus()
-  }
+  // focusSlider = () => {
+  //   this.ref.focus()
+  // }
+  // componentDidMount () {
+  //   this.focusSlider()
+  // }
 
   componentDidUpdate () {
-    this.focusSlider()
+    // this.focusSlider()
     this.resetTransition()
-  }
-
-  componentDidMount () {
-    this.focusSlider()
   }
 
   render (props) {
