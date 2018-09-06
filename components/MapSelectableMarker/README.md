@@ -17,22 +17,17 @@ This component needs to be a child or some grandchild of [`<Map>`](https://react
 
 | Param | Type | Description | Default |
 | --- | --- | --- |
-| position | `LatLng` | the location of the marker on the map | undefined |
-| pane | `String` | The name of the pane the marker should be rendered on. | 'markerPane' |
+| isSelected | `Bool` | changes the size and style of the marker | undefined |
+| optimizeForTouch | `Bool` | draws a bigger invisible touch area around the marker | undefined |
+| position | `LatLng` | see: https://leafletjs.com/reference-1.3.4.html#latlng | undefined |
+| … | `…` | Everything you can pass to [`Marker`](https://leafletjs.com/reference-1.3.4.html#marker) except `icon`. | |
 
 ## Example
 
 **Code**
 
 ```jsx
-const locationUpdate = {
-  location: {
-    lat: 52.69,
-    lng: 13.06
-  }
-}
-
-<MapLocationMarker locationUpdate={locationUpdate} />
+<MapSelectableMarker position={L.LatLng(52.69,13.06 )} isSelected={false} optimizeForTouch={isTouchEnabled} />
 ```
 
 **Screenshot**
