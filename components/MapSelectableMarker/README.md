@@ -17,7 +17,7 @@ This component needs to be a child or some grandchild of [`<Map>`](https://react
 
 | Param | Type | Description | Default |
 | --- | --- | --- |
-| location | `Object` | with `lat` `lng` - the location of the marker on the map | undefined |
+| position | `LatLng` | the location of the marker on the map | undefined |
 | pane | `String` | The name of the pane the marker should be rendered on. | 'markerPane' |
 
 ## Example

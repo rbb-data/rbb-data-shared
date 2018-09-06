@@ -1,5 +1,5 @@
-@import "~@shared/styles/colors.sass"
-@import "~@shared/styles/breakpoints.sass"
+@import "../../styles/colors.sass"
+@import "../../styles/breakpoints.sass"
 
 .addressSearch
   width: 100%
@@ -25,9 +25,7 @@
     width: 100%
     height: 25px
     padding: 0
-    border-radius: 0
-    border: 1px solid $bb-yellow
-    border-right: 0
+    border-radius: 1px
 
     @include breakpoint(small)
       height: 30px
@@ -35,8 +33,7 @@
   input
     width: 100%
     height: 25px
-    background-color: $bb-yellow
-    opacity: 0.9
+    background-color: $background-grey
     border: 0
     font-family: inherit
     padding: 5px
@@ -62,7 +59,7 @@
     justify-content: center
     border: 0
     box-shadow: 0
-    background-color: black
+    background-color: white
     height: 25px
     width: 25px
     border-left: 1px solid $grey
@@ -123,6 +120,7 @@
 
   .infoWrapper
     display: inline-block
+    pointer-events: all
 
     &:hover .infoBox
       display: inline-block
@@ -141,7 +139,7 @@
     padding: 0
     font-size: 12px
     font-weight: 700
-    color: $bb-yellow
+    color: $red
 
   .infoBox
     display: none

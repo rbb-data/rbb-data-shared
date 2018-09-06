@@ -8,11 +8,11 @@ export default class MapLocationMarker extends Component {
     pane: 'markerPane'
   }
 
-  render ({ location, pane }) {
-    if (!location) return null
+  render ({ position, pane }) {
+    if (!position) return null
 
     const markerProps = {
-      position: [location.lat, location.lng],
+      position: position,
       iconSize: [26, 34],
       iconAnchor: [13, 34],
       pane: pane,
