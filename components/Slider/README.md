@@ -38,5 +38,3 @@ const silderProps = {
 
 <Slider {...silderProps} />
 ```
-
-**Screenshot**
