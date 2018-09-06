@@ -1,4 +1,4 @@
-# MapPointMarker
+# MapSelectableMarker
 
 Renders a marker at a given location.
 ## Dependencies

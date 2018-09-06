@@ -2,24 +2,32 @@ import { h, Component } from 'preact'
 
 import DivIcon from 'react-leaflet-div-icon'
 import colors from '../../styles/colors.sass'
+import _ from './styles.sass'
 
-export default class MapLocationMarker extends Component {
+export default class MapSelectableMarker extends Component {
   static defaultProps = {
     pane: 'markerPane',
-    isSelected: false
+    isSelected: false,
+    optimizeForTouch: false
   }
 
   render () {
-    const { location, pane, isSelected, ...rest } = this.props
+    const { key, location, isSelected, optimizeForTouch, ...rest } = this.props
     if (!location) return null
 
+    const normalIconSize = optimizeForTouch ? [40, 40] : [15, 20]
+    const normalIconAnchor = optimizeForTouch ? [20, 30] : [8, 20]
+
+    const selectedIconSize = [20, 30]
+    const selectedIconAnchor = [10, 28]
+
     const markerProps = {
-      ...rest,
       position: [location.lat, location.lng],
-      iconSize: isSelected ? [20, 30] : [15, 20],
-      iconAnchor: isSelected ? [10, 28] : [8, 20],
-      pane: pane,
-      className: false
+      ...rest,
+      iconSize: isSelected ? selectedIconSize : normalIconSize,
+      iconAnchor: isSelected ? selectedIconAnchor : normalIconAnchor,
+      className: !isSelected && optimizeForTouch ? _.touchMarker : false,
+      key: '' + key + isSelected + optimizeForTouch
     }
 
     // wrapping this inside a div and giving it a ref fixes a bug in IE11 that this
