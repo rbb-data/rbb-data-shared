@@ -29,7 +29,7 @@ const tabBarProps = {
   ]
 }
 
-<TapBar {...tabBarProps} onChange={this.handleSelectSchoolType} />
+<TabBar {...tabBarProps} onChange={this.handleSelectSchoolType} />
 ```
 
 **Screenshot**
