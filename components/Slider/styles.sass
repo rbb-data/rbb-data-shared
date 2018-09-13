@@ -10,11 +10,14 @@
   width: 100%
   height: 100%
   position: relative
-  padding: 0 40px
+  padding: 0
   user-select: none
 
-  @include breakpoint(small)
-    padding: 0 30px
+  &.hasSlideButtons
+    padding: 0 40px
+
+    @include breakpoint(small)
+      padding: 0 30px
 
 .previousSlideWrapper,
 .nextSlideWrapper

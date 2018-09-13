@@ -6,7 +6,8 @@ export default class Slider extends Component {
   static defaultProps = {
     onBackwardNavigation: () => {},
     onForwardNavigation: () => {},
-    canHaveFocus: true
+    canHaveFocus: true,
+    showSlideButtons: true
   }
 
   handleKeyDown = e => {
@@ -102,7 +103,8 @@ export default class Slider extends Component {
       previousSlide,
       currentSlide,
       nextSlide,
-      canHaveFocus
+      canHaveFocus,
+      showSlideButtons
     } = props
 
     const wrapperProps = {
@@ -117,21 +119,25 @@ export default class Slider extends Component {
     }
 
     return <div {...wrapperProps}>
-      <div class={_.content} ref={ref => { this.contentRef = ref }}>
+      <div class={`${_.content} ${showSlideButtons && 'hasSlideButtons'}`} ref={ref => { this.contentRef = ref }}>
         <div class={_.previousSlideWrapper}>{previousSlide}</div>
         {currentSlide}
         <div class={_.nextSlideWrapper}>{nextSlide}</div>
       </div>
 
-      { !!previousSlide &&
-        <button class={`${_.prevNextButton} ${_.prev}`} onClick={navigateBack}>
-          <img src={nextIcon} />
-        </button>
-      }
-      { !!nextSlide &&
-        <button class={`${_.prevNextButton} ${_.next}`} onClick={navigateForward}>
-          <img src={nextIcon} />
-        </button>
+      { showSlideButtons &&
+        <div>
+          { !!previousSlide &&
+            <button class={`${_.prevNextButton} ${_.prev}`} onClick={navigateBack}>
+              <img src={nextIcon} />
+            </button>
+          }
+          { !!nextSlide &&
+            <button class={`${_.prevNextButton} ${_.next}`} onClick={navigateForward}>
+              <img src={nextIcon} />
+            </button>
+          }
+        </div>
       }
     </div>
   }
