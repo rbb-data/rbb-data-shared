@@ -119,7 +119,7 @@ export default class Slider extends Component {
     }
 
     return <div {...wrapperProps}>
-      <div class={`${_.content} ${showSlideButtons && 'hasSlideButtons'}`} ref={ref => { this.contentRef = ref }}>
+      <div class={`${_.content} ${showSlideButtons && _.hasSlideButtons}`} ref={ref => { this.contentRef = ref }}>
         <div class={_.previousSlideWrapper}>{previousSlide}</div>
         {currentSlide}
         <div class={_.nextSlideWrapper}>{nextSlide}</div>
