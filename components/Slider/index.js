@@ -52,6 +52,8 @@ export default class Slider extends Component {
     const isForwardNavigation = diff > 0
     const offset = isForwardNavigation ? width * -1 : width
 
+    this.touchStartPosition = undefined
+
     if (Math.abs(diff) < 100) return this.resetTransition({ animated: true })
 
     // cancel transition when there is no slide to go to
@@ -64,6 +66,11 @@ export default class Slider extends Component {
     setTimeout(() => {
       isForwardNavigation ? navigateForward() : navigateBack()
     }, 500)
+  }
+
+  handleTouchCancel = () => {
+    this.touchStartPosition = undefined
+    this.resetTransition()
   }
 
   resetTransition = ({ animated = false } = {}) => {
@@ -108,18 +115,18 @@ export default class Slider extends Component {
     } = props
 
     const wrapperProps = {
-      class: `${_.slider} ${className}`,
+      class: `${_.slider} ${className} ${showSlideButtons && 'hasSlideButtons'}`,
       ref: ref => { this.ref = ref },
       tabIndex: canHaveFocus ? 0 : null,
       onKeyDown: this.handleKeyDown,
       onTouchStart: this.handleTouchStart,
       onTouchMove: this.handleTouchMove,
       onTouchEnd: this.handleTouchEnd,
-      onTouchCancel: this.resetTransition
+      onTouchCancel: this.handleTouchCancel
     }
 
     return <div {...wrapperProps}>
-      <div class={`${_.content} ${showSlideButtons && 'hasSlideButtons'}`} ref={ref => { this.contentRef = ref }}>
+      <div class={_.content} ref={ref => { this.contentRef = ref }}>
         <div class={_.previousSlideWrapper}>{previousSlide}</div>
         {currentSlide}
         <div class={_.nextSlideWrapper}>{nextSlide}</div>
