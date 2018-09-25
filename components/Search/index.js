@@ -76,30 +76,30 @@ export default class Search extends Component {
     })
   }
 
-  handleBlur = () => {
-    const { selectedResult, suggestions, isOnSmallScreen } = this.props
-    // this is very hacky, but it's necessary. the problem basically is this:
-    // if you have a suggestion list and you want to select something, the blur
-    // event on the input field is fired before the click event on an item in
-    // that list. this callback handles this blur event
-    if (suggestions === null) {
-      // here we can do it without any kind of delay because
-      // it's not possible to fire a click event
-      this.setState({ inputVisible: !this.props.isOnSmallScreen })
-      this.props.onReset()
-    } else {
-      // this functionality is bascially to space out hiding everything
-      // long enough to interfer with the click event
-      setTimeout(() => {
-        if (selectedResult !== null) return
-        this.props.onReset()
-        this.setState({
-          value: '',
-          inputVisible: !isOnSmallScreen
-        })
-      }, 1000)
-    }
-  }
+  // handleBlur = () => {
+  //   const { selectedResult, suggestions, isOnSmallScreen } = this.props
+  //   // this is very hacky, but it's necessary. the problem basically is this:
+  //   // if you have a suggestion list and you want to select something, the blur
+  //   // event on the input field is fired before the click event on an item in
+  //   // that list. this callback handles this blur event
+  //   if (suggestions === null) {
+  //     // here we can do it without any kind of delay because
+  //     // it's not possible to fire a click event
+  //     this.setState({ inputVisible: !this.props.isOnSmallScreen })
+  //     this.props.onReset()
+  //   } else {
+  //     // this functionality is bascially to space out hiding everything
+  //     // long enough to interfer with the click event
+  //     setTimeout(() => {
+  //       if (selectedResult !== null) return
+  //       this.props.onReset()
+  //       this.setState({
+  //         value: '',
+  //         inputVisible: !isOnSmallScreen
+  //       })
+  //     }, 1000)
+  //   }
+  // }
 
   handleReset = () => {
     this.setState({ value: '', previousResult: null })
@@ -162,7 +162,7 @@ export default class Search extends Component {
           value={value}
           onInput={this.handleInput}
           onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
+          // onBlur={this.handleBlur}
           autoComplete={'off'} />
         { this.getButton() }
       </form>
