@@ -2,162 +2,60 @@
 import style from './styles.sass'
 
 import { h, Component } from 'preact'
-import { PropTypes } from 'preact-compat'
-import { autocomplete } from '../../lib/opencage.js'
 import searchIcon from './img/searchIcon.svg'
 import closeIcon from './img/closeIcon.svg'
-
-function featureLabel (feature) {
-  return `${feature.formatted}`
-}
+import dropdownIcon from './img/dropdownIcon.svg'
 
 export default class Search extends Component {
   static defaultProps = {
     isOnSmallScreen: false,
+    asDropdown: false,
     placeholder: 'Bitte Adresse eingeben',
-    onSelect: () => {},
-    geojsonSearch: () => []
+    nothingFoundText: 'Die Adresse konnte nicht gefunden werden.',
+    // displayed suggestions (e.g. autocomplete results)
+    suggestions: null,
+    // selected input feature
+    selectedResult: null,
+    onInput: (value) => {},
+    onResult: (result) => {},
+    onReset: () => {}
   }
 
-  propTypes = {
-    class: PropTypes.string,
-    layers: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onSelect: PropTypes.func
+  state = {
+    // value of the text input
+    value: '',
+    // currently selected
+    highlightedSuggestion: 0,
+    // the input field can be hidden e.g. on mobile
+    inputVisible: true
   }
 
-  constructor ({ onSelect, isOnSmallScreen }) {
-    super()
-    this.state = {
-      // value of the text input
-      value: '',
-      // selected input feature
-      result: undefined,
-      // displayed suggestions (e.g. autocomplete results)
-      suggestions: undefined,
-      // currently selected
-      highlightedSuggestion: 0,
-      // the input field is hidden on mobile
-      inputVisible: !isOnSmallScreen
-    }
-  }
-
-  handleAutoCompleteResponse = (provider, geojsonFeatures) => {
-    const features = geojsonFeatures
-      .concat(provider.features)
-      .map((feature) => {
-        return {
-          // keep type and geometry
-          ...feature,
-          properties: {
-            ...feature.properties,
-            label: featureLabel(feature)
-          }
-        }
-      })
-
-    this.setState({
-      suggestions: features,
-      highlightedSuggestion: 0
-    })
-  }
-
-  scheduledRequest = null
-  debounceInMs = 1000
-
-  /**
-   * Handler for changes in our <input type='text' />, responsible for sending
-   * the autocomplete queries.
-   *
-   * @param  {Array} layers Which layers to search for in autosuggestions.
-   *                        See https://mapzen.com/documentation/search/autocomplete/#available-autocomplete-parameters
-   * @return {function}     Event handler function that takes one param: e {InputEvent}
-   */
-  handleInput = (layers) => (e) => {
+  handleInput = (e) => {
     e.preventDefault()
     const { target: {value} } = e
-    if (this.state.value === value) return
-    this.setState({ value, suggestions: undefined, result: undefined })
-    this.props.onSelect()
-
-    // cancel scheduled request and schedule a new one if our text field isn't empty
-    clearTimeout(this.scheduledRequest)
-
-    if (value.trim() !== '') {
-      const request = () => {
-        // search a provider engine for points matching the input
-        const params = { layers: layers.join(','), text: value }
-        const providerRequest = new Promise((resolve, reject) => {
-          autocomplete(params).then(result => {
-            result.features = result.features
-              .filter(({components: {_type}}) =>
-                _type === 'road' ||
-                _type === 'neighbourhood' ||
-                _type === 'building')
-              .map(entry => ({
-                ...entry,
-                type: 'location',
-                location: {
-                  lat: entry.geometry.lat,
-                  lng: entry.geometry.lng
-                }
-              }))
-            resolve(result)
-          })
-        })
-
-        // search the given features if a geojson search is provided in the properties
-        const geojsonRequest = this.props.geojsonSearch(value)
-          .slice(0, this.props.maxGeojsonResults || 3)
-          .map(feature => ({
-            ...feature,
-            type: 'feature',
-            formatted: feature.properties.formatted,
-            location: {
-              lat: feature.geometry.coordinates[1],
-              lng: feature.geometry.coordinates[0]
-            }
-          }))
-
-        Promise
-          .all([providerRequest, geojsonRequest])
-          .then(([providerResult, geojsonResult]) => {
-            this.handleAutoCompleteResponse(providerResult, geojsonResult)
-          })
-      }
-
-      // wait a delay before actual request to limit traffic
-      this.scheduledRequest = setTimeout(request, this.debounceInMs)
-    }
+    this.setState({ value })
+    this.props.onInput(value)
   }
 
-  /**
-   * Handle when a place is picked from our autocomplete results
-   *
-   * @param  {GeoJSON.Point} feature
-   */
-  setResult = (feature) => {
-    this.setState({
-      value: feature.properties.label,
-      result: feature,
-      suggestions: undefined,
-      highlightedSuggestion: 0
-    }, () => {
-      this.blockBlurEvent = false
-      this.props.onSelect(feature)
-    })
+  handleFocus = (e) => {
+    this.handleInput(e)
+    this.inputElement.focus()
   }
 
-  handleResultSelect = (feature) => () => { this.setResult(feature) }
+  handleResultSelect = (value) => () => {
+    this.props.onResult(value)
+  }
 
   //
   // Autocomplete user interface (key interaction etc.)
   //
 
   handleKeyDown = (e) => {
-    const { suggestions, highlightedSuggestion } = this.state
+    const { highlightedSuggestion } = this.state
+    const { suggestions } = this.props
 
     // if we don't have any suggestions we don't need to change behavior
-    if (suggestions === undefined) return
+    if (suggestions === null) return
 
     // ArrowUP / ArrowDown key pressed (UP / Down in IE)
     const keyIsArrowUp = e.key === 'ArrowUp' || e.key === 'Up'
@@ -179,96 +77,109 @@ export default class Search extends Component {
   }
 
   handleBlur = () => {
+    const { selectedResult, suggestions, isOnSmallScreen } = this.props
     // this is very hacky, but it's necessary. the problem basically is this:
     // if you have a suggestion list and you want to select something, the blur
     // event on the input field is fired before the click event on an item in
     // that list. this callback handles this blur event
-    if (this.state.suggestions == null) {
+    if (suggestions === null) {
       // here we can do it without any kind of delay because
       // it's not possible to fire a click event
       this.setState({ inputVisible: !this.props.isOnSmallScreen })
+      this.props.onReset()
     } else {
       // this functionality is bascially to space out hiding everything
       // long enough to interfer with the click event
       setTimeout(() => {
-        if (this.state.result != null) return
+        if (selectedResult !== null) return
+        this.props.onReset()
         this.setState({
           value: '',
-          suggestions: undefined,
-          inputVisible: !this.props.isOnSmallScreen
+          inputVisible: !isOnSmallScreen
         })
       }, 1000)
     }
   }
 
   handleReset = () => {
-    this.setState({ value: '', result: undefined })
-    this.props.onSelect()
+    this.setState({ value: '', previousResult: null })
+    this.props.onReset()
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
     if (this.state.inputVisible || !this.props.isOnSmallScreen) {
-      const {result, suggestions, highlightedSuggestion} = this.state
+      const { suggestions } = this.props
+      const { previousResult, highlightedSuggestion } = this.state
 
       // if the user submits twice suggestions will be undefined but the result
       // from the last submit is stored so we can use it
-      const feature = result || (suggestions && suggestions[highlightedSuggestion])
-      if (feature) this.setResult(feature)
+      const result = (suggestions && suggestions[highlightedSuggestion]) || previousResult
+      this.previousResult = result
+      if (result) this.props.onResult(result.value)
     } else {
+      // if input was hidden the event on the submit button will show the
+      // search input
       this.setState({ inputVisible: true })
       this.inputElement.focus()
     }
   }
 
-  render (props, state) {
-    const {class: className, layers} = props
-    const {value, result, suggestions, highlightedSuggestion} = state
+  getButton = () => {
+    const { asDropdown, suggestions, selectedResult } = this.props
+
+    if (asDropdown) {
+      return suggestions === null
+        ? <button key='dropdown' class={style.searchButton} onClick={this.handleFocus}>
+          <img src={dropdownIcon} />
+        </button>
+        : <button key='reset' class={style.searchButton} type={'reset'}>
+          <img src={closeIcon} />
+        </button>
+    } else {
+      return selectedResult
+        ? <button key='reset' class={style.searchButton} type={'reset'}>
+          <img src={closeIcon} />
+        </button>
+        : <button key='submit' class={style.searchButton} type={'submit'}>
+          <img src={searchIcon} />
+        </button>
+    }
+  }
+
+  render () {
+    const { class: className, placeholder, nothingFoundText, suggestions } = this.props
+
+    const { value, highlightedSuggestion, inputVisible } = this.state
     const nothingFound = suggestions && suggestions.length === 0
 
-    const visibility = show => ({ display: show ? 'block' : 'none' })
-
-    return (<div className={`${className} ${style.addressSearch}`}>
-      <div class={`${style.searchWrapper} ${state.inputVisible ? style.inputVisible : ''}`}>
-        <form onSubmit={this.handleSubmit} onReset={this.handleReset} onKeyDown={this.handleKeyDown}>
-          <input
-            ref={elem => { this.inputElement = elem }}
-            type='text'
-            placeholder={props.placeholder}
-            value={value}
-            onInput={this.handleInput(layers)}
-            onBlur={this.handleBlur}
-            autoComplete={'off'} />
-          <button class={style.searchButton} type={'reset'} style={visibility(result)}>
-            <img src={closeIcon} />
-          </button>
-          <button class={style.searchButton} type={'submit'} style={visibility(!result)}>
-            <img src={searchIcon} />
-          </button>
-        </form>
-        {suggestions &&
-          <ul className={style.resultList}>
-            {suggestions.map((feature, i) =>
-              <li
-                onClick={this.handleResultSelect(feature)}
-                className={highlightedSuggestion === i ? style.active : ''}>
-                <p className={style.inner}>{feature.properties.label}</p>
-              </li>)
-            }
-          </ul>
-        }
-        {nothingFound &&
-          <p class={style.nothingFound}>Die Adresse konnte nicht gefunden werden.</p>
-        }
-      </div>
-      <div class={style.infoWrapper}>
-        <button class={style.infoButton} onClick={this.toggleInfoText}>i</button>
-        <div class={style.infoBox}>
-          Bei Nutzung der Suchfunktion werden Daten an <a target='_blank' href='https://geocoder.opencagedata.com/'>OpenCage</a> übertragen.
-          Weitere Informationen auf der rbb <a target='_blank' href='https://www.rbb-online.de/hilfe/copyright_und_datenschutz/datenschutzerklaerung.html'>
-          Datenschutzerklärung</a>.
-        </div>
-      </div>
-    </div>)
+    return <div class={`${className} ${style.searchWrapper} ${inputVisible ? style.inputVisible : ''}`}>
+      <form onSubmit={this.handleSubmit} onReset={this.handleReset} onKeyDown={this.handleKeyDown}>
+        <input
+          ref={elem => { this.inputElement = elem }}
+          type='text'
+          placeholder={placeholder}
+          value={value}
+          onInput={this.handleInput}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          autoComplete={'off'} />
+        { this.getButton() }
+      </form>
+      {suggestions &&
+        <ul className={style.resultList}>
+          {suggestions.map((suggestion, i) =>
+            <li
+              onClick={this.handleResultSelect(suggestion.value)}
+              className={highlightedSuggestion === i ? style.active : ''}>
+              <div className={style.inner}>{suggestion.label}</div>
+            </li>)
+          }
+        </ul>
+      }
+      {nothingFound &&
+        <p class={style.nothingFound}>{ nothingFoundText }</p>
+      }
+    </div>
   }
 }

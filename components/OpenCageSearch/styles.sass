@@ -1,18 +1,24 @@
 @import "../../styles/colors.sass"
 @import "../../styles/breakpoints.sass"
 
-.searchWrapper
-  pointer-events: all
-  max-width: 100%
-  margin-bottom: 10px
-  box-shadow: 1px 1px 3px -1px black
+.addressSearch
+  width: 100%
+  padding: 0 10px
+  pointer-events: none
 
-  @include breakpoint(small)
-    width: 30px
-    box-shadow: 1px 1px 3px -1px rgba(0,0,0,.5)
+  .searchWrapper
+    pointer-events: all
+    width: 300px
+    max-width: 100%
+    margin-bottom: 10px
+    box-shadow: 1px 1px 3px -1px black
 
-    transition: all .2s ease
-    transition-property: box-shadow, width
+    @include breakpoint(small)
+      width: 30px
+      box-shadow: 1px 1px 3px -1px rgba(0,0,0,.5)
+
+      transition: all .2s ease
+      transition-property: box-shadow, width
 
   form
     display: flex
@@ -73,8 +79,6 @@
     border-top: 1px solid $light-grey
     margin: 0
     padding: 0
-    max-height: 300px
-    overflow: auto
 
     li
       padding: 5px 5px 0
