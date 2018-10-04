@@ -131,7 +131,7 @@ export default class Search extends Component {
     if (asDropdown) {
       return suggestions === null
         ? <button key='dropdown' class={style.searchButton} onClick={this.handleFocus}>
-          <img src={dropdownIcon} />
+          <img src={dropdownIcon} class={style.dropdown} />
         </button>
         : <button key='reset' class={style.searchButton} type={'reset'}>
           <img src={closeIcon} />
