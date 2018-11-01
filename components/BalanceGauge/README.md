@@ -4,11 +4,11 @@ Renders an info gauge that's useful for visualizing balances between two dimesio
 
 ## Parameters
 
-| Param | Type | Description |
-| --- | --- | --- |
-| class | `String` | A className for the component |
-| ratio | <code>Number</code> | Number between 0 and 1 |
-| text | <code>function</code> | Function that gets passed the current ratio and                          should return descriptive text. |
+| Param | Type                  | Description                                                                     |
+| ---   | ---                   | ---                                                                             |
+| class | `String`              | A className for the component                                                   |
+| ratio | <code>Number</code>   | Number between 0 and 1                                                          |
+| text  | <code>function</code> | Function that gets passed the current ratio and should return descriptive text. |
 
 ## Example
 
