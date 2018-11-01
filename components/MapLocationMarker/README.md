@@ -15,10 +15,11 @@ This component needs to be a child or some grandchild of [`<Map>`](https://react
 
 ## Parameters
 
-| Param | Type | Description | Default |
-| --- | --- | --- |
-| position | `LatLng` | see: https://leafletjs.com/reference-1.3.4.html#latlng | undefined |
-| pane | `String` | The name of the pane the marker should be rendered on. | 'markerPane' |
+| Param    | Type     | Description                                            | Default      |
+| ---      | ---      | ---                                                    | ---          |
+| position | `LatLng` | see: https://leafletjs.com/reference-1.3.4.html#latlng | undefined    |
+| pane     | `String` | The name of the pane the marker should be rendered on. | 'markerPane' |
+
 
 ## Example
 
