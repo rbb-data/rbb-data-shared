@@ -5,7 +5,7 @@ that are reused in different rbb-data projects.
 
 You can add it as git submodule:
 ```bash
-git submodule add https://[username]@docs.rbb-online.de/bitbucket/scm/rd/rbb-data-shared.git src/rbb-data-shared
+git submodule add https://github.com/rbb-data/rbb-data-shared.git
 ```
 
 Or just copy the code in your repository and change it to your needs.
