@@ -35,6 +35,12 @@ export default class MapPolygonWithAbsolutePoints extends Component {
     this.context.map.on('move', e => { this.updateAbsPos() })
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props !== prevProps) {
+      this.updateAbsPos()
+    }
+  }
+
   render (props) {
     const { pointCalculationFunctions, positionsOnMap, ...others } = props
     if (!this.state.positions) return
