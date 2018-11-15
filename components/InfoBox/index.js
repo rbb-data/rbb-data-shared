@@ -15,14 +15,13 @@ export default class Search extends Component {
         </button>
         <div class={style.infoBox}>
           <p>
-            Diese Infografik von rbb|24 soll möglichst schnell und transparent die aktuelle Stickstoffdioxid-Belastung in Berlin und Brandenburg darstellen. Dafür werden mit einem automatisierten Programm die offiziellen Messdaten alle 10 Minuten von den landeseigenen Webseiten in <a href='https://luftdaten.berlin.de/lqi' target='_blank'>Berlin</a> und <a href='https://luftdaten.brandenburg.de/home/-/bereich/aktuell' target='_blank'>Brandenburg</a> abgefragt.
-            Dort erfahren Sie auch die genauen Standorte der Messstationen.
+            Das NO&#8322;-Tool von rbb|24 zeigt schnell und übersichtlich die aktuelle Stickstoffdioxid-Belastung in Berlin und Brandenburg. Dafür werden die Daten der offiziellen Messstellen alle 10 Minuten von den landeseigenen Webseiten in <a href='https://luftdaten.berlin.de/lqi' target='_blank'>Berlin</a> und <a href='https://luftdaten.brandenburg.de/home/-/bereich/aktuell' target='_blank'>Brandenburg</a> abgefragt. Dort finden Sie auch die genauen Standorte der Messstationen.
           </p>
           <p>
-            Unsere Farbskala orientiert sich an bisherigen Stickoxid-Recherchen des rbb: Niedrige Belastung wird grün dargestellt. Höhere Belastung in orange, rot und schließlich schwarz. Die Sortierung und Farbe der Stationen spiegelt stets den aktuellsten, übermittelten Wert wieder.
+            Niedrige Belastung wird grün dargestellt, höhere Belastung in orange, rot und schwarz. Die Reihenfolge, in der die Stationen geordnet werden, und Farbe der Stationen spiegelt den aktuellsten übermittelten Wert wieder.
           </p>
           <p>
-            Sollte aus irgendwelchen Gründen kein Messwert übermittelt werden, wird der fehlende Datensatz interpoliert. Die Ticks auf der Y-Achse zeigen den heutigen Minimal- und Maximalwert sowie den errechneten Mittelwert in Mikrogramm pro Kubikmeter Luft (µg/m³).
+            Wenn kurzfristig kein Messwert übermittelt wird, wird der fehlende Wert interpoliert. Die Einträge auf der Y-Achse zeigen den tagesaktuellen Minimal- und Maximalwert sowie den errechneten Mittelwert in Mikrogramm pro Kubikmeter Luft (µg/m³). Für die Außenluft gibt es zwei relevante, gesetzliche Stickstoffdioxid-Grenzwerte: Im Jahresmittel darf die NO&#8322;-Belastung höchsten 40 µg/m³ betragen. Daneben gibt es den Einstundengrenzwert von 200 µg/m³, der höchstens 18-mal pro Jahr überschritten werden darf. Während der erste Grenzwert an vielen Messstellen in Berlin nicht eingehalten werden kann, wird der Einstundengrenzwert in der Regel überall in Deutschland eingehalten.
           </p>
           <p>
             <b>Quellen:</b>
