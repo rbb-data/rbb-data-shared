@@ -2,6 +2,8 @@ import { h, Component } from 'preact'
 import nextIcon from './nextIcon.svg'
 import _ from './styles.sass'
 
+import InfoBox from '../InfoBox'
+
 export default class Slider extends Component {
   static defaultProps = {
     onBackwardNavigation: () => {},
@@ -126,6 +128,7 @@ export default class Slider extends Component {
     }
 
     return <div {...wrapperProps}>
+      <InfoBox />
       <div class={_.content} ref={ref => { this.contentRef = ref }}>
         <div class={_.previousSlideWrapper}>{previousSlide}</div>
         {currentSlide}
