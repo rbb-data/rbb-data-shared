@@ -6,6 +6,8 @@ import searchIcon from './img/searchIcon.svg'
 import closeIcon from './img/closeIcon.svg'
 import dropdownIcon from './img/dropdownIcon.svg'
 
+import InfoBox from '../InfoBox'
+
 export default class Search extends Component {
   static defaultProps = {
     isOnSmallScreen: false,
@@ -153,33 +155,36 @@ export default class Search extends Component {
     const { value, highlightedSuggestion, inputVisible } = this.state
     const nothingFound = suggestions && suggestions.length === 0
 
-    return <div class={`${className} ${style.searchWrapper} ${inputVisible ? style.inputVisible : ''}`}>
-      <form onSubmit={this.handleSubmit} onReset={this.handleReset} onKeyDown={this.handleKeyDown}>
-        <input
-          ref={elem => { this.inputElement = elem }}
-          type='text'
-          placeholder={placeholder}
-          value={value}
-          onInput={this.handleInput}
-          onFocus={this.handleFocus}
-          // onBlur={this.handleBlur}
-          autoComplete={'off'} />
-        { this.getButton() }
-      </form>
-      {suggestions &&
-        <ul className={style.resultList}>
-          {suggestions.map((suggestion, i) =>
-            <li
-              onClick={this.handleResultSelect(suggestion.value)}
-              className={highlightedSuggestion === i ? style.active : ''}>
-              <div className={style.inner}>{suggestion.label}</div>
-            </li>)
-          }
-        </ul>
-      }
-      {nothingFound &&
-        <p class={style.nothingFound}>{ nothingFoundText }</p>
-      }
+    return <div>
+      <div class={`${className} ${style.searchWrapper} ${inputVisible ? style.inputVisible : ''}`}>
+        <form onSubmit={this.handleSubmit} onReset={this.handleReset} onKeyDown={this.handleKeyDown}>
+          <input
+            ref={elem => { this.inputElement = elem }}
+            type='text'
+            placeholder={placeholder}
+            value={value}
+            onInput={this.handleInput}
+            onFocus={this.handleFocus}
+            // onBlur={this.handleBlur}
+            autoComplete={'off'} />
+          { this.getButton() }
+        </form>
+        {suggestions &&
+          <ul className={style.resultList}>
+            {suggestions.map((suggestion, i) =>
+              <li
+                onClick={this.handleResultSelect(suggestion.value)}
+                className={highlightedSuggestion === i ? style.active : ''}>
+                <div className={style.inner}>{suggestion.label}</div>
+              </li>)
+            }
+          </ul>
+        }
+        {nothingFound &&
+          <p class={style.nothingFound}>{ nothingFoundText }</p>
+        }
+      </div>
+      <InfoBox />
     </div>
   }
 }
