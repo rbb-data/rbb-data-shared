@@ -115,7 +115,7 @@ export default class Slider extends Component {
     } = props
 
     const wrapperProps = {
-      class: `${_.slider} ${className} ${showSlideButtons && 'hasSlideButtons'}`,
+      class: `${_.slider} ${className} ${showSlideButtons && _.hasSlideButtons}`,
       ref: ref => { this.ref = ref },
       tabIndex: canHaveFocus ? 0 : null,
       onKeyDown: this.handleKeyDown,
