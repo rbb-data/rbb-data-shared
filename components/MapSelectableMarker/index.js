@@ -13,7 +13,7 @@ export default class MapSelectableMarker extends Component {
     optimizeForTouch: false,
     fillColor: colors.red,
     strokeColor: colors.bordeaux,
-    hasStroke: false
+    hasStroke: true
   }
 
   render () {
