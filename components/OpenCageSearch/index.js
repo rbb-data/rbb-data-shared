@@ -15,6 +15,7 @@ export default class Search extends Component {
   static defaultProps = {
     isOnSmallScreen: false,
     placeholder: 'Bitte Adresse eingeben',
+    location: 'berlin',
     onSelect: () => {},
     geojsonSearch: () => []
   }
@@ -85,7 +86,7 @@ export default class Search extends Component {
     if (value.trim() !== '') {
       const request = () => {
         // search a provider engine for points matching the input
-        const params = { layers: layers.join(','), text: value }
+        const params = { layers: layers.join(','), text: value, location: this.props.location }
         const providerRequest = new Promise((resolve, reject) => {
           autocomplete(params).then(result => {
             result.features = result.features
