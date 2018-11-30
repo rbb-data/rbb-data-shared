@@ -15,7 +15,7 @@ export default class Search extends Component {
         </button>
         <div class={style.infoBox}>
           <p>
-            Das NO&#8322;-Tool von rbb|24 zeigt schnell und übersichtlich die aktuelle Stickstoffdioxid-Belastung in Berlin und Brandenburg. Dafür werden die Daten der offiziellen Messstellen alle 10 Minuten von den landeseigenen Webseiten in <a href='https://luftdaten.berlin.de/lqi' target='_blank'>Berlin</a> und <a href='https://luftdaten.brandenburg.de/home/-/bereich/aktuell' target='_blank'>Brandenburg</a> abgefragt. Dort finden Sie auch die genauen Standorte der Messstationen.
+            Der Stickstoffdioxid-Monitor von rbb|24 zeigt schnell und übersichtlich die aktuelle Stickstoffdioxid-Belastung in Berlin und Brandenburg. Dafür werden die Daten der offiziellen Messstellen alle 10 Minuten von den landeseigenen Webseiten in <a href='https://luftdaten.berlin.de/lqi' target='_blank'>Berlin</a> und <a href='https://luftdaten.brandenburg.de/home/-/bereich/aktuell' target='_blank'>Brandenburg</a> abgefragt. Dort finden Sie auch die genauen Standorte der Messstationen.
           </p>
           <p>
             Niedrige Belastung wird grün dargestellt, höhere Belastung in orange, rot und schwarz. Die Reihenfolge, in der die Stationen geordnet werden, und Farbe der Stationen spiegelt den aktuellsten übermittelten Wert wieder.
