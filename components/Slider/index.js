@@ -27,14 +27,19 @@ export default class Slider extends Component {
 
   handleTouchStart = (e) => {
     this.contentRef.style.transition = ''
-    this.touchStartPosition = e.changedTouches[0].clientX
+    this.touchStartPosition = e.changedTouches[0]
   }
 
   handleTouchMove = (e) => {
     if (!this.touchStartPosition || !this.contentRef) return
 
-    const diff = (this.touchStartPosition - e.changedTouches[0].clientX) * -1
-    this.contentRef.style.transform = `translateX(${diff}px)`
+    const diffX = (this.touchStartPosition.clientX - e.changedTouches[0].clientX) * -1
+    const diffY = (this.touchStartPosition.clientY - e.changedTouches[0].clientY)
+
+    if (Math.abs(diffX) < 20 || Math.abs(diffY) > Math.abs(diffX)) return
+
+    this.contentRef.style.transform = `translateX(${diffX}px)`
+    e.preventDefault()
   }
 
   handleTouchEnd = (e) => {
@@ -48,7 +53,7 @@ export default class Slider extends Component {
     } = this.props
 
     const { width } = this.contentRef.getBoundingClientRect()
-    const diff = (this.touchStartPosition - e.changedTouches[0].clientX)
+    const diff = (this.touchStartPosition.clientX - e.changedTouches[0].clientX)
     const isForwardNavigation = diff > 0
     const offset = isForwardNavigation ? width * -1 : width
 
