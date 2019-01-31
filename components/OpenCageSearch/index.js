@@ -3,7 +3,7 @@ import style from './styles.sass'
 
 import { h, Component } from 'preact'
 import { PropTypes } from 'preact-compat'
-import { autocomplete } from '../../lib/opencage.js'
+import { autocomplete, fixBerlinSearchResult } from '../../lib/openrouteservice.js'
 import searchIcon from './img/searchIcon.svg'
 import closeIcon from './img/closeIcon.svg'
 
@@ -46,6 +46,7 @@ export default class Search extends Component {
     const features = geojsonFeatures
       .concat(provider.features)
       .map((feature) => {
+        feature = fixBerlinSearchResult(feature)
         return {
           // keep type and geometry
           ...feature,
@@ -90,16 +91,12 @@ export default class Search extends Component {
         const providerRequest = new Promise((resolve, reject) => {
           autocomplete(params).then(result => {
             result.features = result.features
-              .filter(({components: {_type}}) =>
-                _type === 'road' ||
-                _type === 'neighbourhood' ||
-                _type === 'building')
               .map(entry => ({
                 ...entry,
                 type: 'location',
                 location: {
-                  lat: entry.geometry.lat,
-                  lng: entry.geometry.lng
+                  lat: entry.geometry.coordinates[1],
+                  lng: entry.geometry.coordinates[0]
                 }
               }))
             resolve(result)
@@ -137,8 +134,9 @@ export default class Search extends Component {
    * @param  {GeoJSON.Point} feature
    */
   setResult = (feature) => {
+    let label = `${feature.properties.name}, ${feature.properties.neighbourhood ? `${feature.properties.neighbourhood},` : ''} ${feature.properties.region}`
     this.setState({
-      value: feature.properties.label,
+      value: label,
       result: feature,
       suggestions: undefined,
       highlightedSuggestion: 0
@@ -214,6 +212,7 @@ export default class Search extends Component {
 
       // if the user submits twice suggestions will be undefined but the result
       // from the last submit is stored so we can use it
+      
       const feature = result || (suggestions && suggestions[highlightedSuggestion])
       if (feature) this.setResult(feature)
     } else {
@@ -253,7 +252,9 @@ export default class Search extends Component {
               <li
                 onClick={this.handleResultSelect(feature)}
                 className={highlightedSuggestion === i ? style.active : ''}>
-                <p className={style.inner}>{feature.properties.label}</p>
+                <p className={style.inner}>
+                  {feature.properties.name}, {feature.properties.neighbourhood ? `${feature.properties.neighbourhood}, ` : ''} {feature.properties.region}
+                </p>
               </li>)
             }
           </ul>
