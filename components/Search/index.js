@@ -184,7 +184,7 @@ export default class Search extends Component {
           <p class={style.nothingFound}>{ nothingFoundText }</p>
         }
       </div>
-      <InfoBox />
+      {/* <InfoBox /> */}
     </div>
   }
 }
