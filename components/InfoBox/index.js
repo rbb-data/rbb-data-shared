@@ -21,7 +21,7 @@ export default class Search extends Component {
             Niedrige Belastung wird grün dargestellt, höhere Belastung in orange, rot und schwarz. Die Reihenfolge, in der die Stationen geordnet werden, und Farbe der Stationen spiegelt den aktuellsten übermittelten Wert wieder.
           </p>
           <p>
-            Wenn kurzfristig kein Messwert übermittelt wird, wird der fehlende Wert interpoliert. Für die Außenluft gibt es zwei relevante, gesetzliche Stickstoffdioxid-Grenzwerte: Im Jahresmittel darf die NO&#8322;-Belastung höchsten 40 µg/m³ betragen. Daneben gibt es den Einstundengrenzwert von 200 µg/m³, der höchstens 18-mal pro Jahr überschritten werden darf. Während der erste Grenzwert an vielen Messstellen in Berlin nicht eingehalten werden kann, wird der Einstundengrenzwert in der Regel überall in Deutschland eingehalten.
+            Für die Außenluft gibt es zwei relevante, gesetzliche Stickstoffdioxid-Grenzwerte: Im Jahresmittel darf die NO&#8322;-Belastung höchsten 40 µg/m³ betragen. Daneben gibt es den Einstundengrenzwert von 200 µg/m³, der höchstens 18-mal pro Jahr überschritten werden darf. Während der erste Grenzwert an vielen Messstellen in Berlin nicht eingehalten werden kann, wird der Einstundengrenzwert in der Regel überall in Deutschland eingehalten.
           </p>
           <p>
             <b>Quellen:</b>
